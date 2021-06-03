@@ -5,11 +5,12 @@ import CartIcon from 'components/Cart/CartIcon';
 interface Props {
   btnType: 'button' | 'reset' | 'submit';
   children: React.ReactNode;
+  onClick: () => void;
 }
 
-const HeaderCartButton = ({ btnType, children }: Props) => {
+const HeaderCartButton = ({ btnType, children, onClick }: Props) => {
   return (
-    <button type={btnType} className={classes.button}>
+    <button type={btnType} className={classes.button} onClick={onClick}>
       <span className={classes.icon}>
         <CartIcon />
       </span>

@@ -4,12 +4,18 @@ import HeaderCartButton from './HeaderCartButton';
 import HeaderImage from './HeaderImage';
 import mealsImage from 'assets/meals.jpg';
 
-const Header = () => {
+interface Props {
+  onShowCart: () => void;
+}
+
+const Header = ({ onShowCart }: Props) => {
   return (
     <>
       <header className={classes.header}>
         <h1>Food Delivery</h1>
-        <HeaderCartButton btnType='button'>Cart</HeaderCartButton>
+        <HeaderCartButton btnType='button' onClick={onShowCart}>
+          Cart
+        </HeaderCartButton>
       </header>
       <div className={classes['main-image']}>
         <HeaderImage
