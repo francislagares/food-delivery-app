@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './MealItem.module.css';
 import MealItemForm from './MealItemForm';
 
-const MealItem = ({ name, description, price }: IMeals) => {
+const MealItem = ({ name, description, price }: IMeal) => {
   const formatedPrice = `$${price.toFixed(2)}`;
 
   return (

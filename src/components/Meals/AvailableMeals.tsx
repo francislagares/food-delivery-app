@@ -3,7 +3,7 @@ import classes from './AvailableMeals.module.css';
 import MealItem from './MealItem/MealItem';
 import Card from 'components/UI/Card';
 
-const DUMMY_MEALS: IMeals[] = [
+const DUMMY_MEALS: IMeal[] = [
   {
     id: 'm1',
     name: 'Sushi',
