@@ -1,7 +1,14 @@
-interface IMeals {
+interface IMeal {
   id: string;
   name: string;
   description: string;
+  price: number;
+}
+
+interface ICartItem {
+  id: string;
+  name: string;
+  amount: number;
   price: number;
 }
 
