@@ -23,6 +23,7 @@ interface IAddItem {
 
 interface IRemoveItem {
   type: 'REMOVE_ITEM';
+  item?: ICartItem;
   id: ICartItem['id'];
 }
 
