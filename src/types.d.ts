@@ -1,15 +1,12 @@
 interface IMeal {
-  id: string;
+  id?: string;
   name: string;
-  description: string;
+  description?: string;
   price: number;
 }
 
-interface ICartItem {
-  id: string;
-  name: string;
+interface ICartItem extends IMeal {
   amount: number;
-  price: number;
 }
 
 type CartState = {
@@ -17,22 +14,17 @@ type CartState = {
   totalAmount: number;
 };
 
-enum ActionType {
-  IAddItem = 'ADD_ITEM',
-  IRemoveItem = 'REMOVE_ITEM',
-}
+type CartAction = IAddItem | IRemoveItem;
 
 interface IAddItem {
-  type: ActionType.IAddItem;
+  type: 'ADD_ITEM';
   item: ICartItem;
 }
 
 interface IRemoveItem {
-  type: ActionType.IRemoveItem;
+  type: 'REMOVE_ITEM';
   id: ICartItem['id'];
 }
-
-type CartAction = IAddItem | IRemoveItem;
 
 // Event Types
 type Submit = React.FormEvent<HTMLFormElement>;
