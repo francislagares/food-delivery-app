@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import classes from './Cart.module.css';
 import CartItem from './CartItem';
+import Checkout from './Checkout';
 import Modal from 'components/UI/Modal';
 import CartContext from 'context/cart-context';
 
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const Cart = ({ onHideCart }: Props) => {
+  const [isCheckout, setIsCheckout] = useState(false);
   const cartCtx = useContext(CartContext);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -21,6 +23,10 @@ const Cart = ({ onHideCart }: Props) => {
 
   const cartItemAddHandler = (item: ICartItem) => {
     cartCtx.addItem({ ...item, amount: 1 });
+  };
+
+  const orderHandler = () => {
+    setIsCheckout(true);
   };
 
   const cartItems = (
@@ -38,6 +44,19 @@ const Cart = ({ onHideCart }: Props) => {
     </ul>
   );
 
+  const modalActions = (
+    <div className={classes.actions}>
+      <button className={classes['button-alt']} onClick={onHideCart}>
+        Close
+      </button>
+      {hasItems && (
+        <button className={classes.button} onClick={orderHandler}>
+          Order
+        </button>
+      )}
+    </div>
+  );
+
   return (
     <Modal onClose={onHideCart}>
       {cartItems}
@@ -45,12 +64,8 @@ const Cart = ({ onHideCart }: Props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      <div className={classes.actions}>
-        <button className={classes['button-alt']} onClick={onHideCart}>
-          Close
-        </button>
-        {hasItems && <button className={classes.button}>Order</button>}
-      </div>
+      {isCheckout && <Checkout onCancel={onHideCart} />}
+      {!isCheckout && modalActions}
     </Modal>
   );
 };
