@@ -21,7 +21,7 @@ type CartState = {
   totalAmount: number;
 };
 
-type CartAction = IAddItem | IRemoveItem;
+type CartAction = IAddItem | IRemoveItem | IClearCart;
 
 interface IAddItem {
   type: 'ADD_ITEM';
@@ -32,6 +32,10 @@ interface IRemoveItem {
   type: 'REMOVE_ITEM';
   item?: ICartItem;
   id: ICartItem['id'];
+}
+
+interface IClearCart {
+  type: 'CLEAR';
 }
 
 // Event Types
