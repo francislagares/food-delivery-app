@@ -5,6 +5,13 @@ interface IMeal {
   price: number;
 }
 
+interface IUserData {
+  name: string | undefined;
+  street: string | undefined;
+  city: string | undefined;
+  postalCode: string | undefined;
+}
+
 interface ICartItem extends IMeal {
   amount: number;
 }
