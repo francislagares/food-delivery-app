@@ -12,6 +12,9 @@ interface Props {
 
 const Cart = ({ onHideCart }: Props) => {
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmiting, setIsSubmiting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
+
   const cartCtx = useContext(CartContext);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -27,6 +30,23 @@ const Cart = ({ onHideCart }: Props) => {
 
   const orderHandler = () => {
     setIsCheckout(true);
+  };
+
+  const submitOrderHandler = async (userData: IUserData) => {
+    setIsSubmiting(true);
+    const response = await fetch(
+      'https://delivery-food-app-a41ac-default-rtdb.firebaseio.com/orders.json',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          user: userData,
+          orderedItems: cartCtx.items,
+        }),
+      },
+    );
+    setIsSubmiting(false);
+    setDidSubmit(true);
+    cartCtx.clearCart();
   };
 
   const cartItems = (
@@ -57,15 +77,38 @@ const Cart = ({ onHideCart }: Props) => {
     </div>
   );
 
-  return (
-    <Modal onClose={onHideCart}>
+  const cartModalContent = (
+    <>
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckout && <Checkout onCancel={onHideCart} />}
+      {isCheckout && (
+        <Checkout onSubmit={submitOrderHandler} onCancel={onHideCart} />
+      )}
       {!isCheckout && modalActions}
+    </>
+  );
+
+  const isSubmitingModalContent = <p>Sending order data...</p>;
+
+  const didSubmitModalContent = (
+    <>
+      <p>Successfully sent the order!</p>
+      <div className={classes.actions}>
+        <button className={classes.button} onClick={onHideCart}>
+          Close
+        </button>
+      </div>
+    </>
+  );
+
+  return (
+    <Modal onClose={onHideCart}>
+      {!isSubmiting && !didSubmit && cartModalContent}
+      {isSubmiting && isSubmitingModalContent}
+      {!isSubmiting && didSubmit && didSubmitModalContent}
     </Modal>
   );
 };
